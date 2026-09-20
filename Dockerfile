@@ -27,8 +27,13 @@ RUN composer install --no-interaction --optimize-autoloader --no-dev
 # Step 6: Storage aur Cache folders ki Permissions fix karna
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
+# SQLite file auto-create and permissions setup inside image
+RUN touch /var/www/html/database/database.sqlite && \
+    chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
+
 # Step 7: FastCGI (PHP-FPM) Port Open karna
 EXPOSE 9000
 
 # Step 8: PHP-FPM Service start karna
 CMD ["php-fpm"]
+
