@@ -11,7 +11,10 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
-
+    # Step 2.1: Composer install karna (PHP ke liye dependency manager)
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Step 2.2: Laravel ke dependencies install karna
+RUN composer install --no-interaction --optimize-autoloader --no-dev
 # Step 3: Container ke andar working directory set karna
 WORKDIR /var/www/html
 
