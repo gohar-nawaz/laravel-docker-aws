@@ -1,0 +1,34 @@
+name: Deploy Laravel App to AWS EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Check karein agar project directory exist karti hai
+            if [ ! -d "app" ]; then
+              git clone https://github.com/${{ github.repository }}.git app
+              cd app
+            else
+              cd app
+              git pull origin main
+            fi
+
+            # Docker containers ko rebuild aur restart karein
+            docker compose down
+            docker compose up -d --build

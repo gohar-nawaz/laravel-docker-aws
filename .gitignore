@@ -1,0 +1,15 @@
+# Terraform sensitive files
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+
+# Laravel & Dependency files
+src/vendor/
+src/node_modules/
+src/.env
+
+# SSH Keys
+*.pem
+id_rsa
+id_rsa.pub
