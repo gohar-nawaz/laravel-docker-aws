@@ -1,5 +1,5 @@
 # Step 1: Base Image
-FROM php:8.2-fpm
+FROM php:8.3-fpm
 
 # Step 2: System Packages aur Laravel ke PHP Extensions install karna
 RUN apt-get update && apt-get install -y \
