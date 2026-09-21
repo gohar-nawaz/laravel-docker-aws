@@ -29,6 +29,6 @@ jobs:
               git pull origin main
             fi
 
-            # Docker containers ko rebuild aur restart karein
-            docker compose down
-            docker compose up -d --build
+            # Docker containers ko rebuild aur restart karein (HTTPS-only prod config)
+            docker compose -f docker-compose.prod.yml down
+            docker compose -f docker-compose.prod.yml up -d --build
