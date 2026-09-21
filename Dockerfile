@@ -1,16 +1,19 @@
 # Step 1: Base Image
 FROM php:8.3-fpm
 
-# Step 2: System Packages aur Laravel ke PHP Extensions install karna
-RUN apt-get update && apt-get install -y \
+# Step 2: System Packages aur SQLite/PHP Extensions install karna
+RUN apt-get update --fix-missing && apt-get install -y --no-install-recommends \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    libsqlite3-dev \
+    sqlite3 \
     zip \
     unzip \
     git \
     curl \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+    && docker-php-ext-install pdo_sqlite pdo_mysql mbstring exif pcntl bcmath gd \
+    && apt-get clean && rm -rf  /var/lib/apt/lists/* 
 
 # Step 2.1: Composer install karna
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
