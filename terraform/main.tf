@@ -95,8 +95,15 @@ resource "aws_instance" "web_server" {
   }
 }
 
+# Elastic IP Allocate Karna aur EC2 Instance ke saath Associate Karna
+
+resource "aws_eip" "web_server_eip" {
+  instance = aws_instance.web_server.id
+  domain   = "vpc"
+}
+
 # 4. EC2 Instance ka Public IP Output
 output "server_public_ip" {
-  value       = aws_instance.web_server.public_ip
+  value       = aws_eip.web_server_eip.public_ip
   description = "Public IP address of the EC2 Instance"
 }
