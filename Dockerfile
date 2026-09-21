@@ -34,9 +34,14 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 RUN touch /var/www/html/database/database.sqlite && \
     chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
 
+# Step 6.1: Entrypoint script (local dev bind-mount permissions fix karta hai har start pe)
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 # Step 7: FastCGI (PHP-FPM) Port Open karna
 EXPOSE 9000
 
 # Step 8: PHP-FPM Service start karna
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["php-fpm"]
 
