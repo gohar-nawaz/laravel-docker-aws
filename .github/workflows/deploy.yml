@@ -26,7 +26,12 @@ jobs:
               cd app
             else
               cd app
-              git pull origin main
+              # pull ki jagah force-sync: container ke chmod se tracked files ki
+              # permission (mode) badal jati hai, jise git "local change" samajh
+              # kar merge par atak jata hai. Ye deploy target hai, koi manual
+              # edit yahan expect nahi hoti, isliye hamesha origin/main se match.
+              git fetch origin main
+              git reset --hard origin/main
             fi
 
             # Docker containers ko rebuild aur restart karein (HTTPS-only prod config)
